@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="my-3">
+      <app-counter-output [counter]="counter"></app-counter-output>
+    </div>
+
+    <div class="my-3">
+      <app-counter-buttons
+        (increment)="onIncrement()"
+        (decrement)="onDecrement()"
+        (reset)="onReset()"
+      ></app-counter-buttons>
+    </div>
+  </div>
+</div>
