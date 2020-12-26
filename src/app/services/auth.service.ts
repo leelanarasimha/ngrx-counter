@@ -19,8 +19,26 @@ export class AuthService {
   }
 
   formatUser(data: AuthResponseData) {
-    const expirationDate = new Date(new Date().getTime() + +data.expiresIn * 1000)
-    const user = new User(data.email, data.idToken, data.localId, expirationDate);
+    const expirationDate = new Date(
+      new Date().getTime() + +data.expiresIn * 1000
+    );
+    const user = new User(
+      data.email,
+      data.idToken,
+      data.localId,
+      expirationDate
+    );
     return user;
+  }
+
+  getErrorMessage(message: string) {
+    switch (message) {
+      case 'EMAIL_NOT_FOUND':
+        return 'Email Not Found';
+      case 'INVALID_PASSWORD':
+        return 'Invalid Password';
+      default:
+        return 'Unknown error occurred. Please try again';
+    }
   }
 }
