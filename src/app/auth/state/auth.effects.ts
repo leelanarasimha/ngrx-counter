@@ -3,8 +3,9 @@ import {
   setErrorMessage,
 } from './../../store/Shared/shared.actions';
 import { AuthService } from './../../services/auth.service';
-import { exhaustMap, map, catchError, tap } from 'rxjs/operators';
+import { exhaustMap, map, catchError, tap, mergeMap } from 'rxjs/operators';
 import {
+  autoLogin,
   loginStart,
   loginSuccess,
   signupStart,
@@ -35,6 +36,7 @@ export class AuthEffects {
             this.store.dispatch(setLoadingSpinner({ status: false }));
             this.store.dispatch(setErrorMessage({ message: '' }));
             const user = this.authService.formatUser(data);
+            this.authService.setUserInLocalStorage(user);
             return loginSuccess({ user });
           }),
           catchError((errResp) => {
@@ -70,6 +72,7 @@ export class AuthEffects {
           map((data) => {
             this.store.dispatch(setLoadingSpinner({ status: false }));
             const user = this.authService.formatUser(data);
+            this.authService.setUserInLocalStorage(user);
             return signupSuccess({ user });
           }),
           catchError((errResp) => {
@@ -83,4 +86,16 @@ export class AuthEffects {
       })
     );
   });
+
+  autoLogin$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(autoLogin),
+        map((action) => {
+          const user = this.authService.getUserFromLocalStorage();
+        })
+      );
+    },
+    { dispatch: false }
+  );
 }
