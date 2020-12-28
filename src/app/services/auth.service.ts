@@ -6,7 +6,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppState } from '../store/app.state';
 import { Store } from '@ngrx/store';
-import { logout } from '../auth/state/auth.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -87,6 +86,4 @@ export class AuthService {
     }
     return null;
   }
-
-
 }
