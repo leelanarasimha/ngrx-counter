@@ -1,5 +1,6 @@
+import { AuthTokenInterceptor } from './services/AuthToken.interceptor';
 import { AuthEffects } from './auth/state/auth.effects';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { appReducer } from './store/app.state';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -34,7 +35,9 @@ import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loa
       logOnly: environment.production,
     }),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
