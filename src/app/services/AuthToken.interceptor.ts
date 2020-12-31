@@ -1,4 +1,4 @@
-import { exhaustMap } from 'rxjs/operators';
+import { exhaustMap, take } from 'rxjs/operators';
 import { getToken } from './../auth/state/auth.selector';
 import { AppState } from './../store/app.state';
 import { Store } from '@ngrx/store';
@@ -19,6 +19,7 @@ export class AuthTokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return this.store.select(getToken).pipe(
+      take(1),
       exhaustMap((token) => {
         if (!token) {
           return next.handle(req);
