@@ -27,8 +27,11 @@
               >Update </a
             >&nbsp;
             <button class="btn btn-danger" (click)="onDeletePost(post.id)">
-              Delete
-            </button>
+              Delete</button
+            >&nbsp;
+            <a href="" class="btn btn-info" [routerLink]="['details', post.id]"
+              >Details
+            </a>
           </td>
         </tr>
       </tbody>
