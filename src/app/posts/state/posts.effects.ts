@@ -1,3 +1,4 @@
+import { Update } from '@ngrx/entity';
 import { Post } from './../../models/posts.model';
 import { filter, map, mergeMap, switchMap } from 'rxjs/operators';
 import {
@@ -56,7 +57,13 @@ export class PostsEffects {
       switchMap((action) => {
         return this.postsService.updatePost(action.post).pipe(
           map((data) => {
-            return updatePostSuccess({ post: action.post });
+            const updatedPost: Update<Post> = {
+              id: action.post.id,
+              changes: {
+                ...action.post,
+              },
+            };
+            return updatePostSuccess({ post: updatedPost });
           })
         );
       })
